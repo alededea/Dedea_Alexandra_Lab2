@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Dedea_Alexandra_Lab2.Data;
 using Dedea_Alexandra_Lab2.Models;
+using Dedea_Alexandra_Lab2.Models.ViewModels;
 
 namespace Dedea_Alexandra_Lab2.Pages.Categories
 {
@@ -19,14 +20,37 @@ namespace Dedea_Alexandra_Lab2.Pages.Categories
             _context = context;
         }
 
+        public IEnumerable<Book> books;
         public IList<Category> Category { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public CategoryIndexData CategoriesData { get; set; }
+        public int CategoryID { get; set; }
+        public int BookID { get; set; }
+        public async Task OnGetAsync(int? id, int? bookID)
         {
-            if (_context.Category != null)
+
+            books = new List<Book>();
+
+            CategoriesData = new CategoryIndexData();
+            CategoriesData.Categories = await _context.Category
+            .Include(i => i.BookCategories)
+            .ThenInclude(i => i.Book)
+            .ThenInclude(c => c.Author)
+            .OrderBy(i => i.CategoryName)
+            .ToListAsync();
+
+            if (id != null)
             {
-                Category = await _context.Category.ToListAsync();
+                CategoryID = id.Value;
+                Category category = CategoriesData.Categories.Where(i => i.ID == id.Value).Single();
+                CategoriesData.BookCategories = category.BookCategories;
+                foreach (BookCategory bookCategory in CategoriesData.BookCategories)
+                {
+                    Book book = bookCategory.Book;
+                    books.Append(book);
+                }
+                CategoriesData.Books = books;
             }
+
         }
     }
 }
