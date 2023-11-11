@@ -21,5 +21,9 @@ namespace Dedea_Alexandra_Lab2.Data
         public DbSet<Dedea_Alexandra_Lab2.Models.Author>? Author { get; set; }
 
         public DbSet<Dedea_Alexandra_Lab2.Models.Category>? Category { get; set; }
+
+        public DbSet<Dedea_Alexandra_Lab2.Models.Member>? Member { get; set; }
+
+        public DbSet<Dedea_Alexandra_Lab2.Models.Borrowing>? Borrowing { get; set; }
     }
 }
