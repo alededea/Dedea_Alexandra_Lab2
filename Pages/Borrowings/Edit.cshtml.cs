@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Dedea_Alexandra_Lab2.Data;
 using Dedea_Alexandra_Lab2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Dedea_Alexandra_Lab2.Pages.Borrowings
 {
+
     public class EditModel : PageModel
     {
         private readonly Dedea_Alexandra_Lab2.Data.Dedea_Alexandra_Lab2Context _context;
